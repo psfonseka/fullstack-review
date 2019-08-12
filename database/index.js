@@ -13,14 +13,22 @@ let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (results, callback) => {
   for (let i = 0; i < results.length; i++) {
-    let current = new Repo(results[i]);
-    current.save(function (err, repo) {
-      if (err) return console.error(err);
-      console.log(repo.name + " saved to collection");
-      if (i === results.length-1) {
-        callback();
+    let newID = results[i].id;
+    Repo.find({id : newID}, function(err, docs) {
+      if (err) {
+        throw err;
+      } else if (docs.length === 0){
+        let current = new Repo(results[i]);
+        current.save(function (err, repo) {
+          if (err) return console.error(err);
+          console.log(repo.name + " saved to collection");
+          if (i === results.length-1) {
+              callback();
+          }
+        });
       }
-    });
+    })
+
   }
 }
 
