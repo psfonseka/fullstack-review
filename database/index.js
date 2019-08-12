@@ -6,7 +6,8 @@ let repoSchema = mongoose.Schema({
   id: String,
   name: String,
   description: String,
-  url: String
+  url: String,
+  username: String
 });
 
 let Repo = mongoose.model('Repo', repoSchema);

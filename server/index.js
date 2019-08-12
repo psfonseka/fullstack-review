@@ -15,7 +15,7 @@ app.post('/repos', function (req, res) {
   getReposByUsername(username, (data) => {
     let results = data.data;
     let resData = results.map(item => {
-      return {id: item.id, name: item.name, description: item.description, url: item.html_url};
+      return {id: item.id, name: item.name, description: item.description, url: item.html_url, username: item.owner.login};
     })
     save(resData, () => {
       get((results) => {
