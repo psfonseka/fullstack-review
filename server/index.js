@@ -1,6 +1,8 @@
 const express = require('express');
 const getReposByUsername = require('../helpers/github.js').getReposByUsername;
 const bodyParser = require('body-parser');
+const MongoClient = require('mongodb').MongoClient;
+const url = "mongodb://localhost:27017/";
 let app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -16,8 +18,19 @@ app.post('/repos', function (req, res) {
   getReposByUsername(username, (data) => {
     let results = data.data;
     let resData = results.map(item => {
-      return {id: item.id, name: item.name, description: item.description, url: item.html_url};
+      return {_id: item.id, name: item.name, description: item.description, url: item.html_url};
     })
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      let dbo = db.db("repos");
+      for (let i = 0; i < resData.length; i++) {
+        let myobj = resData[i];
+        dbo.collection("repos").insertOne(myobj, function(err, res) {
+          if (err) throw err;
+        });
+      }
+      db.close();
+    });
     // console.log(resData);
     // res.statusCode = 200;
     // res.send({results: resData});

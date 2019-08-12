@@ -7,7 +7,6 @@ let getReposByUsername = (username, callback) => {
   // user from the github API
   // The options object has been provided to help you out,
   // but you'll have to fill in the URL
-  console.log(username, "in the actual function");
   let options = {
     url: `https://api.github.com/users/${username}/repos`,
     headers: {
