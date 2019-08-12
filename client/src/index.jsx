@@ -13,7 +13,13 @@ class App extends React.Component {
     }
 
   }
-
+  componentDidMount() {
+    console.log("started!");
+    axios.get('/repos')
+    .then(data => {
+      console.log(data);
+    })
+  }
   search (term) {
     console.log(`${term} was searched`);
     axios.post('/repos', {
@@ -22,7 +28,6 @@ class App extends React.Component {
     .then(data => {
       console.log(data);
     })
-    // TODO
   }
 
   render () {

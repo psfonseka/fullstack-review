@@ -41,9 +41,17 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
-  console.log("get");
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("repos");
+    dbo.collection("repos").find().toArray(function(err, result) {
+      if (err) throw err;
+      console.log(result);
+      res.statusCode = 200;
+      res.send({results: result});
+      db.close();
+    });
+  });
 });
 
 let port = 1128;
