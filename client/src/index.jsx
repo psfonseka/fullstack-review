@@ -18,6 +18,9 @@ class App extends React.Component {
     axios.get('/repos')
     .then(data => {
       let results = data.data.results;
+      if (results.length > 25) {
+        results = results.slice(results.length-25, results.length);
+      }
       this.setState({repos: results});
     })
   }
@@ -29,13 +32,14 @@ class App extends React.Component {
     .then(data => {
       console.log(data);
     })
+    this.render();
   }
 
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search.bind(this)}/>
+      <RepoList repos={this.state.repos}/>
     </div>)
   }
 }
