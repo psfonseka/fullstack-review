@@ -1,8 +1,11 @@
 const express = require('express');
 const getReposByUsername = require('../helpers/github.js').getReposByUsername;
+const save = require('../database/index.js').save;
+const get = require('../database/index.js').get;
+
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://localhost:27017/";
+// const MongoClient = require('mongodb').MongoClient;
+// const url = "mongodb://localhost:27017/";
 let app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -20,17 +23,18 @@ app.post('/repos', function (req, res) {
     let resData = results.map(item => {
       return {_id: item.id, name: item.name, description: item.description, url: item.html_url};
     })
-    MongoClient.connect(url, function(err, db) {
-      if (err) throw err;
-      let dbo = db.db("repos");
-      for (let i = 0; i < resData.length; i++) {
-        let myobj = resData[i];
-        dbo.collection("repos").insertOne(myobj, function(err, res) {
-          if (err) throw err;
-        });
-      }
-      db.close();
-    });
+    save(resData);
+    // MongoClient.connect(url, function(err, db) {
+    //   if (err) throw err;
+    //   let dbo = db.db("repos");
+    //   for (let i = 0; i < resData.length; i++) {
+    //     let myobj = resData[i];
+    //     dbo.collection("repos").insertOne(myobj, function(err, res) {
+    //       if (err) throw err;
+    //     });
+    //   }
+    //   db.close();
+    // });
     // console.log(resData);
     // res.statusCode = 200;
     // res.send({results: resData});
@@ -41,17 +45,11 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-  MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("repos");
-    dbo.collection("repos").find().toArray(function(err, result) {
-      if (err) throw err;
-      console.log(result);
+    get((results) => {
       res.statusCode = 200;
-      res.send({results: result});
-      db.close();
-    });
-  });
+      res.send({results: results});
+    })
+
 });
 
 let port = 1128;

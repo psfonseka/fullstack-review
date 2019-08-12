@@ -17,7 +17,8 @@ class App extends React.Component {
     console.log("started!");
     axios.get('/repos')
     .then(data => {
-      console.log(data);
+      let results = data.data.results;
+      this.setState({repos: results});
     })
   }
   search (term) {
