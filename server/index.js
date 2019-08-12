@@ -18,7 +18,7 @@ app.post('/repos', function (req, res) {
       return {id: item.id, name: item.name, description: item.description, url: item.html_url, username: item.owner.login};
     })
     save(resData, () => {
-      get((results) => {
+      get(null, (results) => {
         res.statusCode = 200;
         res.send({results: results});
       })
@@ -28,7 +28,7 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-    get((results) => {
+    get(null, (results) => {
       res.statusCode = 200;
       res.send({results: results});
     })

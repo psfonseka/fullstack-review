@@ -33,8 +33,8 @@ let save = (results, callback) => {
   }
 }
 
-let get = (callback) => {
-  Repo.find({}, function (err, docs) {
+let get = (sorting, callback) => {
+  Repo.find({}, null, {sort: {"id": 1}}, function (err, docs) {
     callback(docs);
   })
 }
