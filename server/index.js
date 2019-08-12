@@ -18,8 +18,10 @@ app.post('/repos', function (req, res) {
       return {_id: item.id, name: item.name, description: item.description, url: item.html_url};
     })
     save(resData);
-    res.statusCode = 200;
-    res.send("Successful Post!");
+    get((results) => {
+      res.statusCode = 200;
+      res.send({results: results});
+    })
   });
 
 });

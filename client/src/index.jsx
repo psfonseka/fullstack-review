@@ -30,9 +30,12 @@ class App extends React.Component {
       'user': {'username': term}
     })
     .then(data => {
-      console.log(data);
+      let results = data.data.results;
+      if (results.length > 25) {
+        results = results.slice(results.length-25, results.length);
+      }
+      this.setState({repos: results});
     })
-    this.render();
   }
 
   render () {
