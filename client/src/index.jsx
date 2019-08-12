@@ -35,6 +35,7 @@ class App extends React.Component {
         results = results.slice(results.length-25, results.length);
       }
       this.setState({repos: results});
+      this.render();
     })
   }
 

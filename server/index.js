@@ -15,13 +15,14 @@ app.post('/repos', function (req, res) {
   getReposByUsername(username, (data) => {
     let results = data.data;
     let resData = results.map(item => {
-      return {_id: item.id, name: item.name, description: item.description, url: item.html_url};
+      return {id: item.id, name: item.name, description: item.description, url: item.html_url};
     })
-    save(resData);
-    get((results) => {
-      res.statusCode = 200;
-      res.send({results: results});
-    })
+    save(resData, () => {
+      get((results) => {
+        res.statusCode = 200;
+        res.send({results: results});
+      })
+    });
   });
 
 });

@@ -3,7 +3,7 @@ mongoose.connect('mongodb://localhost/fetcher', {useMongoClient:true});
 
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
-  _id: String,
+  id: String,
   name: String,
   description: String,
   url: String
@@ -11,12 +11,15 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (results) => {
+let save = (results, callback) => {
   for (let i = 0; i < results.length; i++) {
     let current = new Repo(results[i]);
     current.save(function (err, repo) {
       if (err) return console.error(err);
       console.log(repo.name + " saved to collection");
+      if (i === results.length-1) {
+        callback();
+      }
     });
   }
 }
