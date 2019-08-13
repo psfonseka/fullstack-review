@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.post('/repos', function (req, res) {
+  console.log('post request');
   let username = req.body.user.username;
   getReposByUsername(username, (data) => {
     let results = data.data;
@@ -28,6 +29,7 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
+  console.log('get request');
     get(null, (results) => {
       res.statusCode = 200;
       res.send({results: results});
