@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://heroku_22t8k132@ds263107.mlab.com:63107/heroku_22t8k132', {useMongoClient:true});
+mongoose.connect(process.env.MONGODB_URI);
 
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
@@ -15,7 +15,7 @@ let Repo = mongoose.model('Repo', repoSchema);
 let save = (results, callback) => {
   for (let i = 0; i < results.length; i++) {
     let newID = results[i].id;
-    Repo.find({id : newID}, function(err, docs) {
+    Repo.find({}, function(err, docs) {
       if (err) {
         throw err;
       } else if (docs.length === 0){

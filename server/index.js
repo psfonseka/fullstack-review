@@ -40,6 +40,6 @@ app.get('/repos', function (req, res) {
 let port = 1128;
 
 app.listen(process.env.PORT || port, function() {
-  console.log(`listening on port ${process.env.PORT}`);
+  console.log(`listening on port ${port}`);
 });
 
