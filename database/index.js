@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('ds263107.mlab.com:63107/heroku_22t8k132', {useMongoClient:true});
+mongoose.connect('mongodb://ds263107.mlab.com:63107/heroku_22t8k132', {useMongoClient:true});
 
 let repoSchema = mongoose.Schema({
   // TODO: your schema here!
